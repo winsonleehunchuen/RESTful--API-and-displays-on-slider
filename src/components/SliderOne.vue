@@ -13,6 +13,7 @@
       </div>
       <button @click="nextSlide" :disabled="currentIndex === visiblePosts.length - 1" class="next-button">&raquo;</button>
     </div>
+    <div v-if="error" class="error-message">{{ error }}</div>
   </div>
 </template>
 
@@ -24,7 +25,8 @@ export default {
     return {
       posts: [],
       currentIndex: 0,
-      visiblePosts: []
+      visiblePosts: [],
+      error: null
     };
   },
   mounted() {
@@ -37,8 +39,8 @@ export default {
           this.posts = response.data.feed.data.posts;
           this.updateVisiblePosts();
         })
-        .catch(error => {
-          console.error('Error fetching posts:', error);
+        .catch(() => {
+          this.error = 'Error fetching not images found!' ;
         });
     },
     updateVisiblePosts() {
